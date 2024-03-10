@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="datetime-local"], button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <form id="taskForm">
+            <input type="text" id="taskInput" placeholder="Enter task...">
+            <input type="datetime-local" id="deadlineInput">
+            <button type="submit">Add Task</button>
+        </form>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const taskForm = document.getElementById('taskForm');
+            const taskInput = document.getElementById('taskInput');
+            const deadlineInput = document.getElementById('deadlineInput');
+            const taskList = document.getElementById('taskList');
+
+            taskForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const taskText = taskInput.value;
+                const deadline = deadlineInput.value;
+
+                if (taskText.trim() === '' || deadline.trim() === '') {
+                    alert('Please enter a task and deadline');
+                    return;
+                }
+
+                addTask(taskText, deadline);
+                taskInput.value = '';
+                deadlineInput.value = '';
+            });
+
+            function addTask(taskText, deadline) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${taskText}</span>
+                    <span>${deadline}</span>
+                    <button class="delete-btn">Delete</button>
+                `;
+                taskList.appendChild(li);
+
+                const deleteBtn = li.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', function() {
+                    li.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
